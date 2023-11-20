@@ -12,18 +12,19 @@
 '''
 
 from collections import namedtuple
+import decimal
 
 Order = namedtuple('Order', 'id, items')
 Item = namedtuple('Item', 'type, description, amount, quantity')
 
 def validorder(order: Order):
-    net = 0
+    net = decimal.Decimal('0')
     
     for item in order.items:
         if item.type == 'payment':
-            net += item.amount
+            net += decimal.Decimal(str(item.amount))
         elif item.type == 'product':
-            net -= item.amount * item.quantity
+            net -= decimal.Decimal(str(item.amount * item.quantity))
         else:
             return("Invalid item type: %s" % item.type)
     
